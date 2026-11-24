@@ -5,8 +5,8 @@ export default {
         return {
             journeyData:
             {
-                id:1,
-                endStation: ''
+                id:0,
+                destination: ""
             }
         };
     },
@@ -15,7 +15,7 @@ export default {
             try {
             const response = await axios.post("https://localhost:7209/api/journeys",this.journeyData);
             // Handle form submission logic here
-            console.log('End Station:', this.journeyData);
+            console.log('End Station:', this.journeyData.destination);
             // You can also send the data to an API or perform other actions as needed
             } catch (error) {
                 console.error('Error submitting form:', error);
@@ -28,8 +28,8 @@ export default {
     <div class="add-journey">
         <form @submit.prevent="submitForm">
             <div>
-                <label for="endStation">End Station:</label>
-                <input type="text" id="endStation" v-model="journeyData.endStation" required />
+                <label for="destination">End Station:</label>
+                <input type="text" id="destination" v-model="journeyData.destination" required />
             </div>
             <button type="submit">Add Journey</button>
         </form>
