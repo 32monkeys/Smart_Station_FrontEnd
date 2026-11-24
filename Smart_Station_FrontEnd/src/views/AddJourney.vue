@@ -1,37 +1,42 @@
 <script>
-import axios from 'axios';
 export default {
-    data() {
-        return {
-            journeyData:
-            {
-                id:1,
-                endStation: ''
-            }
-        };
+  data() {
+    return {
+      journeyData: {
+        id: 1,
+        endStation: '',
+      },
+    }
+  },
+  methods: {
+    async submitForm() {
+      try {
+        // Axios: POST the form data to the /journeys endpoint.
+        // The base URL is supplied by the shared Axios client.
+        const response = await this.$apiClient.post('/journeys', this.journeyData)
+        console.log('Journey added:', response.data)
+      } catch (error) {
+        // Axios/network or API response error.
+        console.error('Error submitting form:', error)
+      }
     },
-    methods: {
-        async submitForm() {
-            try {
-            const response = await axios.post("https://localhost:7209/api/journeys",this.journeyData);
-            // Handle form submission logic here
-            console.log('End Station:', this.journeyData);
-            // You can also send the data to an API or perform other actions as needed
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            }
-        }
-    },
-};
+  },
+}
 </script>
+
 <template>
-    <div class="add-journey">
-        <form @submit.prevent="submitForm">
-            <div>
-                <label for="endStation">End Station:</label>
-                <input type="text" id="endStation" v-model="journeyData.endStation" required />
-            </div>
-            <button type="submit">Add Journey</button>
-        </form>
-    </div>
+  <div class="add-journey">
+    <form @submit.prevent="submitForm">
+      <div>
+        <label for="endStation">End Station:</label>
+        <input
+          id="endStation"
+          v-model="journeyData.endStation"
+          type="text"
+          required
+        />
+      </div>
+      <button type="submit">Add Journey</button>
+    </form>
+  </div>
 </template>
