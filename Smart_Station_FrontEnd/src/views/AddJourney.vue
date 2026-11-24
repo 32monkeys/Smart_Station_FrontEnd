@@ -4,7 +4,8 @@ export default {
     return {
       journeyData: {
         id: 1,
-        endStation: '',
+        startLocation: '',
+        destination: '',
       },
     }
   },
@@ -14,7 +15,7 @@ export default {
         // Axios: POST the form data to the /journeys endpoint.
         // The base URL is supplied by the shared Axios client.
         const response = await this.$apiClient.post('/journeys', this.journeyData)
-        console.log('Journey added:', response.data)
+        console.log('Response:', response)
       } catch (error) {
         // Axios/network or API response error.
         console.error('Error submitting form:', error)
@@ -28,10 +29,17 @@ export default {
   <div class="add-journey">
     <form @submit.prevent="submitForm">
       <div>
-        <label for="endStation">End Station:</label>
+        <label for="startLocation">Start Location:</label>
         <input
-          id="endStation"
-          v-model="journeyData.endStation"
+          id="startLocation"
+          v-model="journeyData.startLocation"
+          type="text"
+          required
+        />
+        <label for="destination">Destination:</label>
+        <input
+          id="destination"
+          v-model="journeyData.destination"
           type="text"
           required
         />
