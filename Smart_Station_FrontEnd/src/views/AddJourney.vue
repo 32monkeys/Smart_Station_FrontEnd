@@ -3,9 +3,11 @@ export default {
   data() {
     return {
       journeyData: {
+        // Dummy value: replace with backend-generated id when API owns identity.
         id: 1,
         startLocation: '',
         destination: '',
+        weekDay: '',
       },
     }
   },
@@ -43,6 +45,21 @@ export default {
           type="text"
           required
         />
+        <label for="weekDay">Week Day:</label>
+        <select
+          id="weekDay"
+          v-model="journeyData.weekDay"
+          required
+        >
+          <option value="" disabled>Select a day</option>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday</option>
+          <option>Sunday</option>
+        </select>
       </div>
       <button type="submit">Add Journey</button>
     </form>
