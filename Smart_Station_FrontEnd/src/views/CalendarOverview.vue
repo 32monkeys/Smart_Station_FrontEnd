@@ -32,8 +32,7 @@ export default {
       visibleMonthOffset: 0,
       // Dummy config: only show a 6-month browsing window.
       totalMonths: 6,
-      // Dummy mode: this calendar currently has no Axios/API journey payload.
-      // Replace with Axios-loaded journey data when backend integration is needed.
+      journeys: [],
     }
   },
   computed: {
@@ -59,9 +58,7 @@ export default {
       for (let dayNumber = 1; dayNumber <= daysInMonth; dayNumber += 1) {
         cells.push({
           dayNumber,
-          // Dummy data: fake journey marker for UI preview.
-          // Replace this with Axios data mapping (e.g. hasJourney from /journeys).
-          hasJourney: (dayNumber + this.displayedMonthIndex) % 3 === 0,
+          hasJourney: this.journeyExists(dayNumber),
         })
       }
 
@@ -83,7 +80,38 @@ export default {
       return this.visibleMonthOffset < this.totalMonths - 1
     },
   },
+  mounted() {
+    this.loadJourneys()
+  },
   methods: {
+    async loadJourneys() {
+      try {
+        const response = await this.$apiClient.get('/journeys')
+        this.journeys = Array.isArray(response.data) ? response.data : []
+      } catch (error) {
+        console.error('Error loading journeys:', error)
+        this.journeys = []
+      }
+    },
+    formatDate(dayNumber) {
+      const month = String(this.displayedMonthIndex + 1).padStart(2, '0')
+      const day = String(dayNumber).padStart(2, '0')
+      return `${this.displayedYear}-${month}-${day}`
+    },
+    journeyExists(dayNumber) {
+      const dateObject = new Date(this.displayedYear, this.displayedMonthIndex, dayNumber)
+      const weekDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(dateObject)
+
+      return this.journeys.some(
+        (journey) => (journey.weekDay || '').toLowerCase() === weekDay.toLowerCase(),
+      )
+    },
+    openDate(dayNumber) {
+      this.$router.push({
+        name: 'date-overview',
+        params: { date: this.formatDate(dayNumber) },
+      })
+    },
     goToPreviousMonth() {
       if (this.canGoPrevious) {
         this.visibleMonthOffset -= 1
@@ -118,7 +146,17 @@ export default {
         </thead>
         <tbody>
             <tr v-for="(week, weekIndex) in calendarWeeks" :key="weekIndex">
-              <td v-for="(day, dayIndex) in week" :key="`${weekIndex}-${dayIndex}`" :class="{ 'empty-cell': !day }">
+              <td
+                v-for="(day, dayIndex) in week"
+                :key="`${weekIndex}-${dayIndex}`"
+                :class="{ 'empty-cell': !day, 'clickable-day': day }"
+                :role="day ? 'button' : undefined"
+                :tabindex="day ? 0 : undefined"
+                :aria-label="day ? `View journeys for ${formatDate(day.dayNumber)}` : undefined"
+                @click="day && openDate(day.dayNumber)"
+                @keydown.enter="day && openDate(day.dayNumber)"
+                @keydown.space.prevent="day && openDate(day.dayNumber)"
+              >
                 <template v-if="day">
                   <p class="day-number">{{ day.dayNumber }}</p>
                   <p v-if="day.hasJourney" class="journey-status journey-status--yes">Journey</p>

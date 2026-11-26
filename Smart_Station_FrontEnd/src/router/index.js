@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AddJourney from '../views/AddJourney.vue'
 import CalendarOverview from '../views/CalendarOverview.vue'
+import DateOverview from '../views/DateOverview.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,12 @@ const router = createRouter({
       path: '/calendar-overview',
       name: 'calendar-overview',
       component: CalendarOverview,
+    },
+    {
+      path: '/date/:date',
+      name: 'date-overview',
+      component: DateOverview,
+      props: true,
     },
   ],
 })

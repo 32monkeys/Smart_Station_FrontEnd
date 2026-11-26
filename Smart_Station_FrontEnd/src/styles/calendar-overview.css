@@ -61,6 +61,17 @@ td {
   background: #f8fafc;
 }
 
+.clickable-day {
+  cursor: pointer;
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.clickable-day:hover,
+.clickable-day:focus {
+  background: #eef2ff;
+  box-shadow: inset 0 0 0 2px #6366f1;
+}
+
 .empty-cell {
   background: #f1f5f9;
 }

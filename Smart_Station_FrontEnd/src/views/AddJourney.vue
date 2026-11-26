@@ -14,8 +14,6 @@ export default {
   methods: {
     async submitForm() {
       try {
-        // Axios: POST the form data to the /journeys endpoint.
-        // The base URL is supplied by the shared Axios client.
         const response = await this.$apiClient.post('/journeys', this.journeyData)
         console.log('Response:', response)
       } catch (error) {
