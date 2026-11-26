@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "dev": "npm --prefix Smart_Station_FrontEnd run dev",
+    "build": "npm --prefix Smart_Station_FrontEnd run build",
+    "preview": "npm --prefix Smart_Station_FrontEnd run preview"
+  },
   "dependencies": {
     "axios": "^1.21.1"
   }

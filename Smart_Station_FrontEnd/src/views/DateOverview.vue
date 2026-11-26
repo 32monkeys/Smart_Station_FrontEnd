@@ -53,6 +53,12 @@ export default {
     goBackToCalendar() {
       this.$router.push('/calendar-overview')
     },
+    openAddJourney() {
+      this.$router.push({
+        name: 'add-journey',
+        query: { date: this.date },
+      })
+    },
   },
 }
 </script>
@@ -64,6 +70,17 @@ export default {
     </button>
 
     <h1>{{ formattedDate }}</h1>
+
+    <!-- Navigation-only action: opens the existing AddJourney view for the selected date. -->
+    <!-- Disabled when a journey exists; update functionality is planned for a future user story. -->
+    <button
+      type="button"
+      class="add-journey-button"
+      :disabled="Boolean(journeyForDate)"
+      @click="openAddJourney"
+    >
+      Add Journey
+    </button>
 
     <section v-if="journeyForDate" class="journey-card">
       <dl>

@@ -17,6 +17,33 @@ h1 {
   margin: 0 0 1.25rem;
 }
 
+.add-journey-button {
+  min-height: 2.5rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: #0f172a;
+  padding: 0.55rem 1rem;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-journey-button:hover {
+  background: #1e293b;
+}
+
+.add-journey-button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.add-journey-button:disabled:hover {
+  background: #94a3b8;
+}
+
 .journey-card {
   border: 1px solid #cbd5e1;
   border-radius: 10px;
