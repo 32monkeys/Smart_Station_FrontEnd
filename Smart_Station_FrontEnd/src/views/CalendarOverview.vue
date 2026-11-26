@@ -99,11 +99,10 @@ export default {
       return `${this.displayedYear}-${month}-${day}`
     },
     journeyExists(dayNumber) {
-      const dateObject = new Date(this.displayedYear, this.displayedMonthIndex, dayNumber)
-      const weekDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(dateObject)
+      const date = this.formatDate(dayNumber)
 
       return this.journeys.some(
-        (journey) => (journey.weekDay || '').toLowerCase() === weekDay.toLowerCase(),
+        (journey) => String(journey.Date || journey.date || '').slice(0, 10) === date,
       )
     },
     openDate(dayNumber) {

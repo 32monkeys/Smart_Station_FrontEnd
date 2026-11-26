@@ -4,11 +4,9 @@ export default {
     return {
       submissionError: '',
       journeyData: {
-        // Dummy value: replace with backend-generated id when API owns identity.
-        id: 1,
         startLocation: '',
         destination: '',
-        weekDay: '',
+        Date: '',
       },
     }
   },
@@ -20,10 +18,8 @@ export default {
       const dateObject = new Date(year, month - 1, day)
 
       if (!Number.isNaN(dateObject.getTime())) {
-        // The selected calendar date determines the weekday sent to the existing backend payload.
-        this.journeyData.weekDay = new Intl.DateTimeFormat('en-US', {
-          weekday: 'long',
-        }).format(dateObject)
+        // The selected calendar date is sent as an exact DateTime value instead of a recurring weekday.
+        this.journeyData.Date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
       }
     }
   },
@@ -66,7 +62,7 @@ export default {
           type="text"
           required
         />
-        <!-- The weekday is now derived from the date selected in the calendar, not entered manually. -->
+        <!-- The exact selected calendar date is stored in the existing journey payload. -->
       </div>
       <!-- The form verification action is labeled Accept and returns to the calendar after a successful POST. -->
       <button type="submit" class="submit-button">Accept</button>

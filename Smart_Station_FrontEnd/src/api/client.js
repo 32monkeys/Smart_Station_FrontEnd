@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Axios: configure the base URL and request timeout once for all API calls.
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://localhost:7209/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5143/api',
   timeout: 10000,
 })
 

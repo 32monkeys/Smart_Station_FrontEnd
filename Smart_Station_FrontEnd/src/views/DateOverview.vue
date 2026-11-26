@@ -29,11 +29,8 @@ export default {
       }).format(this.dateObject)
     },
     journeyForDate() {
-      const weekDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' })
-        .format(this.dateObject)
-
       return this.journeys.find(
-        (journey) => (journey.weekDay || '').toLowerCase() === weekDay.toLowerCase(),
+        (journey) => String(journey.Date || journey.date || '').slice(0, 10) === this.date,
       )
     },
   },
@@ -93,8 +90,8 @@ export default {
           <dd>{{ journeyForDate.destination }}</dd>
         </div>
         <div>
-          <dt>Week day</dt>
-          <dd>{{ journeyForDate.weekDay }}</dd>
+          <dt>Date</dt>
+          <dd>{{ date }}</dd>
         </div>
       </dl>
     </section>
